@@ -8,11 +8,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -33,6 +28,8 @@ namespace Babylon
 
         private void PopulateNotes()
         {
+            /*string filepath = "T:\01_Documents\02_Zettelkasten\Notes";*/
+
             List<Note> Notes = new List<Note>();
 
             Note newNote = new Note();
@@ -56,12 +53,16 @@ namespace Babylon
             newNote.Details.Add(new Detail() { Title="This is the last Note", Abstract = "LAst Note", Complete = false, CreationDate = startDate });
             Notes.Add(newNote);
 
+            newNote = new Note();
+            newNote.Name = "Pengjuan";
+            newNote.Details.Add(new Detail() { Title = "This is another test", Abstract = "In this note we discuss the thing....", Complete = false, CreationDate = startDate });
+            Notes.Add(newNote);
+
             cvsNotes.Source = Notes;
 
         }
 
     }
-
 
     public class Note
     {

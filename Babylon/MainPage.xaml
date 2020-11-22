@@ -15,13 +15,23 @@
 			<ColumnDefinition Width="250"/>
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
-		<ListView Background="white" Grid.Column="0">
-			<TextBlock Text="Test"/>
-		</ListView>
-		<GridView Background="Green" Grid.Column="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
+		<Border BorderBrush="Black" BorderThickness="1">
+			<ListView x:Name="notesListView" Background="white" Grid.Column="0" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<StackPanel>
+								<TextBlock Text="{Binding Title}"/>
+							</StackPanel>
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</Border>
+		<GridView Background="white" Grid.Column="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
 			<GridView.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Margin="5" Background="LightYellow" Height="200" Width="600">
+					<StackPanel Margin="5" Background="LightYellow" Height="200" Width="200">
 						<TextBlock Text="{Binding Title}" FontWeight="Bold"/>
 						<TextBlock Text="{Binding CreationDate}"/>
 						<TextBlock Text="{Binding Abstract}"/>
