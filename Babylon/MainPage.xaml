@@ -7,43 +7,74 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-	<Page.Resources>
-		<CollectionViewSource x:Name="cvsNotes" IsSourceGrouped="True" ItemsPath="Details" />
-	</Page.Resources>
-	<Grid Background="White">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="250"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-		<Border BorderBrush="Black" BorderThickness="1">
-			<ListView x:Name="notesListView" Background="white" Grid.Column="0" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<Grid>
-							<StackPanel>
-								<TextBlock Text="{Binding Title}"/>
-							</StackPanel>
-						</Grid>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
-		</Border>
-		<GridView Background="white" Grid.Column="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
-			<GridView.ItemTemplate>
-				<DataTemplate>
-					<StackPanel Margin="5" Background="LightYellow" Height="400" Width="400">
-						<TextBlock Text="{Binding Title}" FontWeight="Bold"/>
-						<TextBlock Text="{Binding CreationDate}"/>
-						<TextBlock Text="{Binding Abstract}"/>
-						<TextBlock Text="Links"/>
-					</StackPanel>
-				</DataTemplate>
-			</GridView.ItemTemplate>
-			<GridView.ItemsPanel>
-				<ItemsPanelTemplate>
-					<ItemsWrapGrid MaximumRowsOrColumns="4"/>
-				</ItemsPanelTemplate>
-			</GridView.ItemsPanel>
-		</GridView>
-	</Grid>
+    <Page.Resources>
+        <CollectionViewSource x:Name="cvsNotes" IsSourceGrouped="False" ItemsPath="Notes" />
+    </Page.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="800"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <CommandBar Grid.Row="0" Grid.ColumnSpan="3" Background="AliceBlue">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Accept" Label="Accept" Click="AppBarButton_Click"/>
+            </CommandBar.SecondaryCommands>
+            <CommandBar.Content>
+                <TextBlock Text="Note Title?"/>
+            </CommandBar.Content>
+        </CommandBar>
+        <Border BorderBrush="Red" BorderThickness="1" Grid.Row="1">
+            <ListView x:Name="notesListView" Background="white" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+        <GridView Background="white" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}" CanDragItems="True" Margin="5" SelectionMode="Single">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="2" Background="LightYellow" Height="400" Width="400">
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding CreationDate}" FontSize="10"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid MaxWidth="800"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+        <ListView x:Name="lvNote" Background="AliceBlue" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
+        <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15"/>
+                            <RowDefinition Height="15"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <TextBlock Text="{Binding Title}"/>
+                            <TextBlock Text="{Binding CreationDate}"/>
+                        </StackPanel>
+                        <ContentPresenter Grid.Row="1">
+                            <TextBlock Text="{Binding NoteBody}"/>
+                        </ContentPresenter>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </Page>

@@ -18,7 +18,6 @@ namespace Babylon
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        DateTime startDate = DateTime.Now;
 
         public MainPage()
         {
@@ -34,28 +33,22 @@ namespace Babylon
         {
             List<Note> Notes = new List<Note>();
 
+            ObservableCollection<Note> Details = new ObservableCollection<Note>();
+
             DirectoryInfo dirInfo = new DirectoryInfo(workingDir);
             System.IO.FileInfo[] fileNames = dirInfo.GetFiles("*.md*");
 
             foreach (System.IO.FileInfo fi in fileNames)
             {
-                Note newNote = new Note();
-                newNote.Name = fi.Name;
-                newNote.CreationDate = fi.CreationTime;
-
                 string text = System.IO.File.ReadAllText(fi.FullName);
 
-                newNote.Details.Add(new Detail()
-                {
-                    Title = fi.Name,
-                    Abstract = text,
-                });
-
+                // Create new Object "newNote" and add Values to it.
+                Note newNote = new Note(fi.Name, "Summary", text, "Coming Soon...", fi.CreationTime);
                 Notes.Add(newNote);
+                Details.Add(newNote);
 
             }
-
-            Console.WriteLine(Notes);
+            
             cvsNotes.Source = Notes;
 
         }
@@ -79,27 +72,29 @@ namespace Babylon
             return zettelkastenNotesDirName;
         }
 
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 
     public class Note
     {
-        public Note()
+         public Note(string title, string summary, string noteBody, string reference, DateTime creationDate)
         {
-            Details = new ObservableCollection<Detail>();
+            Title = title;
+            Summary = summary;
+            NoteBody = noteBody;
+            Reference = reference;
+            CreationDate = creationDate;
+
         }
 
-        public string Name { get; set; }
-        public DateTime CreationDate { get; set; }
-        public ObservableCollection<Detail> Details { get; set; }
-    }
-
-    public class Detail
-    {
         public string Title { get; set; }
-        public string Abstract { get; set; }
-        public bool Complete { get; set; }
-        public string Note { get; set; }
-    }
+        public string Summary { get; set; }
+        public string NoteBody { get; set; }
+        public string Reference { get; set; }
+        public DateTime CreationDate { get; set; }
 
+    }
 }
