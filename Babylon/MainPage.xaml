@@ -31,7 +31,7 @@
 		<GridView Background="white" Grid.Column="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}">
 			<GridView.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Margin="5" Background="LightYellow" Height="200" Width="200">
+					<StackPanel Margin="5" Background="LightYellow" Height="400" Width="400">
 						<TextBlock Text="{Binding Title}" FontWeight="Bold"/>
 						<TextBlock Text="{Binding CreationDate}"/>
 						<TextBlock Text="{Binding Abstract}"/>

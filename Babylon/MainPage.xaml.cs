@@ -19,48 +19,66 @@ namespace Babylon
     public sealed partial class MainPage : Page
     {
         DateTime startDate = DateTime.Now;
+
         public MainPage()
         {
             this.InitializeComponent();
 
-            PopulateNotes();
+            // Configure the working directory first...
+            string zettelkastenNotesDirName = SetupWorkspace();
+
+            PopulateNotes(zettelkastenNotesDirName);
         }
 
-        private void PopulateNotes()
+        private void PopulateNotes(string workingDir )
         {
-            /*string filepath = "T:\01_Documents\02_Zettelkasten\Notes";*/
-
             List<Note> Notes = new List<Note>();
 
-            Note newNote = new Note();
-            newNote.Name = "Some Note";
-            newNote.Details.Add(new Detail()
+            DirectoryInfo dirInfo = new DirectoryInfo(workingDir);
+            System.IO.FileInfo[] fileNames = dirInfo.GetFiles("*.md*");
+
+            foreach (System.IO.FileInfo fi in fileNames)
             {
-                Title = "Very first note...",
-                Abstract = "This is my first note....",
-                Complete = true,
-                CreationDate = startDate.AddDays(2)
-            });
-            Notes.Add(newNote);
+                Note newNote = new Note();
+                newNote.Name = fi.Name;
+                newNote.CreationDate = fi.CreationTime;
 
-            newNote = new Note();
-            newNote.Name = "Babylon";
-            newNote.Details.Add(new Detail(){ Title="Creation of Notes", Abstract = "Another Note", Complete=false, CreationDate=startDate });
-            Notes.Add(newNote);
+                string text = System.IO.File.ReadAllText(fi.FullName);
 
-            newNote = new Note();
-            newNote.Name = "ABC";
-            newNote.Details.Add(new Detail() { Title="This is the last Note", Abstract = "LAst Note", Complete = false, CreationDate = startDate });
-            Notes.Add(newNote);
+                newNote.Details.Add(new Detail()
+                {
+                    Title = fi.Name,
+                    Abstract = text,
+                });
 
-            newNote = new Note();
-            newNote.Name = "Pengjuan";
-            newNote.Details.Add(new Detail() { Title = "This is another test", Abstract = "In this note we discuss the thing....", Complete = false, CreationDate = startDate });
-            Notes.Add(newNote);
+                Notes.Add(newNote);
 
+            }
+
+            Console.WriteLine(Notes);
             cvsNotes.Source = Notes;
 
         }
+
+        //TODO: In a further iteration, and during setup, ask the user which directory they would like as their notes directory.
+        public string SetupWorkspace()
+        {
+            string userDirectory = "T:\\01_Documents\\02_Zettelkasten\\Notes\\";
+
+            // See if the Notes directory exists already and if not create it. This will be the directory for all the permanent notes according to the Zettelkasten principle.
+            if (!System.IO.Directory.Exists(userDirectory))
+            {
+                System.IO.Directory.CreateDirectory(userDirectory);
+            }
+
+            System.IO.Directory.SetCurrentDirectory(userDirectory);
+            string zettelkastenNotesDirName = System.IO.Directory.GetCurrentDirectory();
+
+            Console.WriteLine(zettelkastenNotesDirName);
+
+            return zettelkastenNotesDirName;
+        }
+
 
     }
 
@@ -72,6 +90,7 @@ namespace Babylon
         }
 
         public string Name { get; set; }
+        public DateTime CreationDate { get; set; }
         public ObservableCollection<Detail> Details { get; set; }
     }
 
@@ -79,7 +98,6 @@ namespace Babylon
     {
         public string Title { get; set; }
         public string Abstract { get; set; }
-        public DateTime CreationDate { get; set; }
         public bool Complete { get; set; }
         public string Note { get; set; }
     }
