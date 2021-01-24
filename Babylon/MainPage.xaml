@@ -41,10 +41,10 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Border>
-        <GridView Background="white" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}" CanDragItems="True" Margin="5" SelectionMode="Single">
+        <GridView Background="white" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Source={StaticResource cvsNotes}}" Margin="5" SelectionMode="Single" CanDragItems="True" AllowDrop="True" DragOver="GridView_DragOver" Drop="Grid_Drop">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="2" Background="LightYellow" Height="400" Width="400">
+                    <StackPanel Margin="2" Background="LightYellow" Height="250" Width="250">
                         <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
                         <TextBlock Text="{Binding CreationDate}" FontSize="10"/>
                     </StackPanel>

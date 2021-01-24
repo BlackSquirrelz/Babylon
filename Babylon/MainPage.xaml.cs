@@ -53,6 +53,18 @@ namespace Babylon
 
         }
 
+
+        private void DeleteNote(int noteID)
+        {
+            System.Diagnostics.Debug.WriteLine("Note Deletion was requested"); 
+        }
+
+        private void EditNote(int noteID)
+        {
+            System.Diagnostics.Debug.WriteLine("Edit Note was requested");
+        }
+
+
         //TODO: In a further iteration, and during setup, ask the user which directory they would like as their notes directory.
         public string SetupWorkspace()
         {
@@ -67,34 +79,28 @@ namespace Babylon
             System.IO.Directory.SetCurrentDirectory(userDirectory);
             string zettelkastenNotesDirName = System.IO.Directory.GetCurrentDirectory();
 
-            Console.WriteLine(zettelkastenNotesDirName);
+            System.Diagnostics.Debug.WriteLine(zettelkastenNotesDirName);
 
             return zettelkastenNotesDirName;
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Diagnostics.Debug.WriteLine("Button Clicked");
         }
-    }
 
-    public class Note
-    {
-         public Note(string title, string summary, string noteBody, string reference, DateTime creationDate)
+        private void GridView_DragOver(object sender, DragEventArgs e)
         {
-            Title = title;
-            Summary = summary;
-            NoteBody = noteBody;
-            Reference = reference;
-            CreationDate = creationDate;
-
+            System.Diagnostics.Debug.WriteLine($"dragging {e.DataView.GetType()}");
+            
+            //UIElement element = e.DataView.
         }
 
-        public string Title { get; set; }
-        public string Summary { get; set; }
-        public string NoteBody { get; set; }
-        public string Reference { get; set; }
-        public DateTime CreationDate { get; set; }
+        private async void Grid_Drop(object sender, DragEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("item dropped");
+        }
 
     }
+
 }
